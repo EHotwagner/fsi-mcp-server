@@ -159,5 +159,13 @@ type FsiService(logger: ILogger<FsiService>, sessionId: string) =
             proc.WaitForExit(5000) |> ignore
         | _ -> ()
 
+    member this.Restart() =
+        logger.LogInformation("FSI-RESTART: Restarting FSI process...")
+        this.Cleanup()
+        Threading.Thread.Sleep(200)
+        let proc = this.StartFsi([||])
+        logger.LogInformation("FSI-RESTART: FSI restarted with PID {ProcessId}", proc.Id)
+        Ok $"FSI restarted (PID {proc.Id})"
+
     interface IDisposable with
         member this.Dispose() = this.Cleanup()

@@ -8,3 +8,6 @@ let SendFSharpCode = "send_fsharp_code"
 
 [<Literal>]
 let GetRecentFsiEvents = "get_recent_fsi_events"
+
+[<Literal>]
+let RestartFsi = "restart_fsi"
