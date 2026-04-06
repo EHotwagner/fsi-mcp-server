@@ -40,6 +40,14 @@ type FsiTools(fsiService: FsiService.FsiService, logger: ILogger<FsiTools>) =
                 $"[{e.Timestamp}] {e.EventType.ToUpper()} ({e.Source}): {e.Content}")
             String.concat "\n" eventStrings
     
+    [<McpServerTool(Name=McpToolNames.RestartFsi)>]
+    [<Description("Restart the FSI (F# Interactive) process. Kills the current FSI and starts a fresh one. Use this after rebuilding DLLs to pick up new code.")>]
+    member _.RestartFsi() : string =
+        logger.LogDebug("MCP-TOOL: RestartFsi called")
+        match fsiService.Restart() with
+        | Ok result -> result
+        | Error msg -> $"Error: {msg}"
+
     [<McpServerTool(Name=McpToolNames.GetFsiStatus)>]
     [<Description("Get information about the FSI service status.")>]
     member _.GetFsiStatus() : string =
